@@ -27,8 +27,8 @@ public class User {
     )
     private Collection<Role> roles;
 
-    // TODO Map company
-//    private Business business;
+    @ManyToOne
+    private Business business;
 
     public User() {}
 
@@ -55,11 +55,11 @@ public class User {
         this.roles = roles;
     }
 
-//    public Business getBusiness() {
-//        return business;
-//    }
-//
-//    public void setBusiness(Business business) {
-//        this.business = business;
-//    }
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
+    }
 }

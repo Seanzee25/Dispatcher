@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <center>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"/>
+            <input type="submit"/>
+        </form>
+    </center>
+
+    <div>
+        <span>Results</span>
+        <ul>
+            <li th:each="user : ${users}">
+                <span th:text="${user.username}"></span>
+                <a th:href="@{|/businessOwner/addEmployee/${user.id}}">Add employee</a>
+            </li>
+        </ul>
+    </div>
+
+</body>
+</html>

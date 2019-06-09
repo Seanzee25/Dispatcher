@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <center>
+        <ul>
+            <li th:each="employee : ${employees}">
+                <span th:text="${employee.username}"></span>
+                <a th:href="@{|/businessOwner/editEmployee/${employee.id}}">Edit</a>
+            </li>
+        </ul>
+    </center>
+</body>
+</html>

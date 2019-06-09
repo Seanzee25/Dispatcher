@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <center>
+        <h1 th:text="|Edit ${employee.username}"></h1>
+        <form method="POST" th:object="${employee}">
+            <div th:each="role : ${roles}">
+                <label th:for="${role.name}" th:text="${role.name}"></label>
+                <input type="checkbox" th:id="${role.name}" name="roles" th:value="${role.id}"/>
+            </div>
+            <input type="hidden" name="employeeId" th:value="${employee.id}"/>
+            <input type="submit"/>
+        </form>
+    </center>
+</body>
+</html>

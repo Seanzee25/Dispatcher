@@ -22,11 +22,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("businessOwner")
-    public String businessOwner() {
-        return "businessOwner";
-    }
-
     @GetMapping("dispatcher")
     public String dispatcher() {
         return "dispatcher";
