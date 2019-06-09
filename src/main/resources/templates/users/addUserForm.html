@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <form method="POST" th:object="${user}">
+        <label th:for="username"></label>
+        <input th:field="*{username}"/>
+        <label th:for="password"></label>
+        <input th:field="*{password}"/>
+        <div th:each="role : ${roles}">
+            <label for="roleIds" th:text="${role.name}"></label>
+            <input type="checkbox" th:name="roleIds" id="roleIds" th:value="${role.id}"/>
+        </div>
+        <input type="submit"/>
+    </form>
+</body>
+</html>

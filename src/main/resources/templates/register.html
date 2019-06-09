@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+    <div th:if="${usernameExists}">
+        <span th:text="${usernameExists}"></span>
+    </div>
+
+    <form method="POST" th:object="${user}">
+        <label th:for="username">Username: </label>
+        <input th:field="*{username}"/>
+        <label th:for="password">Password: </label>
+        <input th:field="*{password}"/>
+        <label>Roles: </label>
+        <div th:each="role : ${roles}">
+            <label for="roleIds" th:text="${role.name}"></label>
+            <input type="checkbox" th:name="roleIds" id="roleIds" th:value="${role.id}"/>
+        </div>
+        <input type="submit" value="Create"/>
+    </form>
+
+</body>
+</html>

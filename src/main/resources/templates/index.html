@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+    <center>
+        <div>
+            Welcome to Dispatcher <span th:if="${username}" th:text="${username}"></span>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <span sec:authentication="name"></span>
+            <span sec:authentication="principal.authorities"></span>
+            <span th:text="${#authentication.name}"></span>
+        </div>
+        <div>
+            <a href="/register">Register</a>
+        </div>
+        <div>
+            <a href="/login">Login</a>
+        </div>
+        <div>
+            <a href="/businessOwner">Owner</a>
+        </div>
+        <div>
+            <a href="/dispatcher">Dispatcher</a>
+        </div>
+        <div>
+            <a href="/fieldTech">Field Tech</a>
+        </div>
+        <div>
+            <a href="/logout">Logout</a>
+        </div>
+    </center>
+
+</body>
+</html>

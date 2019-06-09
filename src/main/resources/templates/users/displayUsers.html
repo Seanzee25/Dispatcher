@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <center>
+        <div th:each="user : ${users}">
+            <span th:text="${user.username}"></span>
+            <a th:href="@{'/admin/user/remove/' + ${user.id}}">Remove</a>
+        </div>
+        <a href="/admin/user/add">Add user</a>
+    </center>
+</body>
+</html>

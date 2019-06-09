@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+    <ul>
+        <li th:each="role : ${roles}">
+            <div>
+                <span th:text="${role.name}"></span>
+                <a th:href="@{'/admin/role/remove/' + ${role.id}}">Delete</a>
+            </div>
+        </li>
+    </ul>
+
+    <div>
+        <a href="/admin/role/add">Add role</a>
+    </div>
+
+</body>
+</html>
