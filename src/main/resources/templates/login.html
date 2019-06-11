@@ -1,24 +1,110 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body>
+    <nav th:replace="fragments :: nav"></nav>
 
-    <div th:if="${param.error}">
-        <span>Bad credentials</span>
-    </div>
-    <div th:if="${logout != null}">
-        <span>You've been logged out</span>
-    </div>
-    <form method="POST">
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" />
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password"/>
-        <input type="submit" value="Login"/>
-    </form>
+    <div class="container p-4">
+        <div class="row">
+            <h1 class="col text-center">Welcome To Dispatcher</h1>
+        </div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#loginModal">Login</button>
+            </div>
+            <div class="modal fade" id="loginModal">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content bg-dark text-center p-2">
+                        <div class="container">
+                            <div class="row">
+                                <button type="button" class="col text-right close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="row">
+                                <h3 class="col text-warning text-center">Login</h3>
+                            </div>
+                            <form method="POST" action="/login">
+                                <div class="form-group">
+                                    <label for="username" class="text-info">Username</label>
+                                    <input type="text" id="username" name="username" class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="text-info">Password</label>
+                                    <input type="password" id=password name="password" class="form-control"/>
+                                </div>
+                                <div class="form-group form-check">
+                                    <label class="form-check-label text-info">
+                                        <input class="form-check-input" type="checkbox"/>
+                                        Remember me
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col mt-2 text-center">
+                <h4>Or</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mt-2 text-center">
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#registerModal">Register</button>
+            </div>
+            <div class="modal fade" id="registerModal">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content bg-dark text-center p-2">
+                        <div class="container">
+                            <div class="row">
+                                <button type="button" class="col text-right close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="row">
+                                <h3 class="col text-warning text-center">Register</h3>
+                            </div>
+                            <form method="POST" action="/register" th:object="${user}">
+                                <div class="form-group">
+                                    <label th:for="username" class="text-info">Username</label>
+                                    <input th:field="*{username}" class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label th:for="password" class="text-info">Password</label>
+                                    <input th:field="*{password}" class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="roleId" class="text-info">Role</label>
+                                    <select class="form-control" id="roleId" name="roleId">
+                                        <option th:each="role : ${roles}"
+                                                th:text="${role.name}"}
+                                                th:value="${role.id}"></option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div th:if="${param.error}">-->
+        <!--<span>Bad credentials</span>-->
+    <!--</div>-->
+    <!--<div th:if="${logout != null}">-->
+        <!--<span>You've been logged out</span>-->
+    <!--</div>-->
+    <!--<form method="POST">-->
+        <!--<label for="username">Username</label>-->
+        <!--<input id="username" name="username" type="text" />-->
+        <!--<label for="password">Password</label>-->
+        <!--<input id="password" name="password" type="password"/>-->
+        <!--<input type="submit" value="Login"/>-->
+    <!--</form>-->
+    <section th:replace="fragments :: javascript"></section>
 </body>
 </html>

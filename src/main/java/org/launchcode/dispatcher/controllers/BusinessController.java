@@ -1,4 +1,4 @@
-package org.launchcode.dispatcher.controllers.businessOwner;
+package org.launchcode.dispatcher.controllers;
 
 import org.launchcode.dispatcher.models.Business;
 import org.launchcode.dispatcher.models.User;
@@ -18,8 +18,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Controller
-@RequestMapping("businessOwner")
-public class BusinessOwnerController {
+@RequestMapping("business")
+public class BusinessController {
 
     @Autowired
     private BusinessRepository businessRepository;
@@ -30,10 +30,10 @@ public class BusinessOwnerController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("")
-    public String displayOwnerPage() {
-        return "businessOwner/ownerMenuPage";
-    }
+//    @GetMapping("")
+//    public String displayOwnerPage() {
+//        return "businessOwner/ownerMenuPage";
+//    }
 
     @GetMapping("addBusiness")
     public String displayAddBusinessForm(Model model) {
@@ -104,7 +104,7 @@ public class BusinessOwnerController {
             return "businessOwner/editSingleEmployeePage";
         }
         User editedUser = userRepository.getOne(employeeId);
-        userService.setUserRoles(editedUser, roles);
+//        userService.setUserRole(editedUser, roles);
         userRepository.save(editedUser);
         return "redirect:/businessOwner";
     }

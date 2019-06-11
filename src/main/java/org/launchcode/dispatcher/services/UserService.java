@@ -10,10 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -30,11 +28,11 @@ public class UserService {
         return existingUser != null;
     }
 
-    public void setUserRoles(User user, long[] roleIds) {
-        // Convert array to List
-        List<Long> roleIdList = Arrays.stream(roleIds).boxed().collect(Collectors.toList());
-        Collection<Role> roles = roleRepository.findAllById(roleIdList);
-        user.setRoles(roles);
+    public void setUserRole(User user, long roleId) {
+        Role role = roleRepository.getOne(roleId);
+        Collection<Role> roleCollection = new ArrayList<>();
+        roleCollection.add(role);
+        user.setRoles(roleCollection);
     }
 
     public void registerAndLoginUser(User user, HttpServletRequest request) {
