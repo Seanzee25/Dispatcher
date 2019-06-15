@@ -53,7 +53,7 @@ public class BusinessController {
         currentUser.setBusiness(business);
         userRepository.save(currentUser);
 
-        return "redirect:/businessOwner";
+        return "redirect:/employees";
     }
 
     @GetMapping("addEmployee")
