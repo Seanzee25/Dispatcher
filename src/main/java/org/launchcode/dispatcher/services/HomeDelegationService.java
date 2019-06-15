@@ -14,7 +14,7 @@ public class HomeDelegationService {
             if(user.getBusiness() == null) {
                 homeAction = "redirect:/business/addBusiness";
             } else {
-                homeAction = "redirect:/workOrders";
+                homeAction = "redirect:/employees";
             }
         } else if(user.getBusiness() != null) {
             if(roleName.equals("ROLE_DISPATCHER")) {
@@ -23,7 +23,7 @@ public class HomeDelegationService {
                 homeAction = "redirect:/jobs";
             }
         } else {
-            homeAction = "redirect:/noBusiness";
+            homeAction = "redirect:/invites";
         }
 
 

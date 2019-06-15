@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+    <nav th:replace="fragments :: nav"></nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-center mt-4">
+                <h4 th:unless="${invites.size()}">
+                    You have no invites. Please speak with your employer about getting
+                    you added to their business.
+                </h4>
+                <h4 th:if="${invites.size() > 0}">Invites</h4>
+                <ul class="list-unstyled">
+                    <li th:each="invite : ${invites}">
+                        <span th:text="${invite.business.name}"></span>
+                        <a class="btn-sm btn-primary" th:href="@{|/invites/accept/${invite.id}}">Accept</a>
+                        <a class="btn-sm btn-primary" th:href="@{|/invites/reject/${invite.id}}">Reject</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <section th:replace="fragments :: javascript"></section>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+    <nav th:replace="fragments :: nav"></nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col text-center mt-4">
+                <ul class="list-unstyled">
+                    <li th:each="employee : ${employees}">
+                        <span th:text="${employee.username}"></span>
+                        <a href="#">Edit</a>
+                    </li>
+                </ul>
+                <a class="btn btn-primary" href="/employees/addEmployee">Add</a>
+
+                <h4>Pending Invites</h4>
+                <ul class="list-unstyled">
+                    <li th:each="invite : ${pendingInvites}" th:text="${invite.user.username}"></li>
+                </ul>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <section th:replace="fragments :: javascript"></section>
+
+</body>
+</html>

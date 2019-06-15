@@ -30,6 +30,10 @@ public class User {
     @ManyToOne
     private Business business;
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private Collection<Invite> invites;
+
     public User() {}
 
     public long getId() { return id; }
@@ -61,5 +65,13 @@ public class User {
 
     public void setBusiness(Business business) {
         this.business = business;
+    }
+
+    public Collection<Invite> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(Collection<Invite> invites) {
+        this.invites = invites;
     }
 }
