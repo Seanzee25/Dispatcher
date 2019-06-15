@@ -40,37 +40,39 @@
     <!-- Navigation links based on role -->
     <div th:fragment="roleBasedNav" class="collapse navbar-collapse" id="collapsibleNavbar" sec:authorize="isAuthenticated()">
         <!-- BUSINESS OWNER -->
-        <ul sec:authorize="hasRole('ROLE_BUSINESS_OWNER')" class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/workOrders">Work Orders</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/jobs">Jobs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/customers">Customers</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/employees">Employees</a>
-            </li>
-        </ul>
+        <div th:if="${#authentication.getPrincipal().getUser().getBusiness()}">
+            <ul sec:authorize="hasRole('ROLE_BUSINESS_OWNER')" class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/workOrders">Work Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/jobs">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customers">Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/employees">Employees</a>
+                </li>
+            </ul>
 
-        <!-- DISPATCHER -->
-        <ul sec:authorize="hasRole('ROLE_DISPATCHER')" class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/workOrders">Work Orders</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/customers">Customers</a>
-            </li>
-        </ul>
+            <!-- DISPATCHER -->
+            <ul sec:authorize="hasRole('ROLE_DISPATCHER')" class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/workOrders">Work Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customers">Customers</a>
+                </li>
+            </ul>
 
-        <!-- FIELD TECH -->
-        <ul sec:authorize="hasRole('ROLE_FIELD_TECH')" class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/jobs">Jobs</a>
-            </li>
-        </ul>
+            <!-- FIELD TECH -->
+            <ul sec:authorize="hasRole('ROLE_FIELD_TECH')" class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/jobs">Jobs</a>
+                </li>
+            </ul>
+        </div>
 
     </div>
 
