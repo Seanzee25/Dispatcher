@@ -23,6 +23,10 @@ public class Business {
     @JoinColumn(name="business_id")
     private Collection<Invite> invites;
 
+    @OneToMany
+    @JoinColumn(name="business_id")
+    private Collection<Customer> customers;
+
     public Business() {
     }
 
@@ -72,5 +76,13 @@ public class Business {
 
     public void setInvites(Collection<Invite> invites) {
         this.invites = invites;
+    }
+
+    public Collection<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Collection<Customer> customers) {
+        this.customers = customers;
     }
 }
