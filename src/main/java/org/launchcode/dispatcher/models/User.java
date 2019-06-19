@@ -34,6 +34,9 @@ public class User {
     @JoinColumn(name = "user_id")
     private Collection<Invite> invites;
 
+    @ManyToMany(mappedBy = "technicians")
+    private Collection<WorkOrder> workOrders;
+
     public User() {}
 
     public long getId() { return id; }
@@ -73,5 +76,13 @@ public class User {
 
     public void setInvites(Collection<Invite> invites) {
         this.invites = invites;
+    }
+
+    public Collection<WorkOrder> getWorkOrders() {
+        return workOrders;
+    }
+
+    public void setWorkOrders(Collection<WorkOrder> workOrders) {
+        this.workOrders = workOrders;
     }
 }

@@ -63,7 +63,7 @@ public class BusinessController {
 
     @PostMapping("addEmployee")
     public String processAddEmployeeForm(Model model, @RequestParam String username) {
-        List<User> usersWithoutBusiness = userRepository.findByBusinessIsNull();
+        List<User> usersWithoutBusiness = userRepository.findAllByBusinessIsNull();
         model.addAttribute("users", usersWithoutBusiness);
         return "businessOwner/addEmployeePage";
     }

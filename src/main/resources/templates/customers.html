@@ -11,7 +11,8 @@
                 <ul class="list-unstyled">
                     <li th:each="customer : ${customers}">
                         <span th:text="${customer.name}"></span>
-                        <a class="btn-sm btn-primary" href="#">Edit</a>
+                        <a class="btn-sm btn-primary" th:href="@{|/customers/edit/${customer.id}}">Edit</a>
+                        <a class="btn-sm btn-primary" th:href="@{|/workOrders/add/${customer.id}}">Add Work Order</a>
                     </li>
                 </ul>
                 <a class="btn btn-primary" href="/customers/add">Add</a>
