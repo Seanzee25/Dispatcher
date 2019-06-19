@@ -4,6 +4,52 @@
 <body>
     <nav th:replace="fragments :: nav"></nav>
 
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-8">
+                <div class="card my-4" th:each="workOrder : ${workOrders}">
+                    <div class="card-body">
+                        <div class="text-right">
+                        <a th:href="@{|/workOrder/edit/${workOrder.id}}" class="btn-sm btn-primary oi oi-pencil"></a>
+                        </div>
+                        <h3 class="card-title" th:text="${workOrder.customer.name}"></h3>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Address</h5>
+                                    <span th:text="${workOrder.customer.address}"></span>
+                                </div>
+                                <div class="col">
+                                    <h5>Contact</h5>
+                                    <span th:text="${workOrder.customer.contact}"></span>
+                                    <h5>Phone Number</h5>
+                                    <span th:text="${workOrder.customer.phoneNumber}"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Description</h5>
+                                    <span th:text="${workOrder.description}"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div th:unless="${workOrder.technicians.size()}" class="col text-right">
+                                    <a class="btn btn-primary" th:href="@{|/workOrders/assign/${workOrder.id}}">Assign</a>
+                                </div>
+                                <div th:if="${workOrder.technicians.size()}" class="col text-right">
+                                    <h5>Assigned Technicians</h5>
+                                    <span th:each="technician : ${workOrder.technicians}" th:text="${technician.username}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
 
     <section th:replace="fragments :: javascript"></section>
 </body>

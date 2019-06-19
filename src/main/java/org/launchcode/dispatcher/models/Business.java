@@ -27,6 +27,10 @@ public class Business {
     @JoinColumn(name="business_id")
     private Collection<Customer> customers;
 
+    @OneToMany
+    @JoinColumn(name="business_id")
+    private Collection<WorkOrder> workOrders;
+
     public Business() {
     }
 
@@ -84,5 +88,13 @@ public class Business {
 
     public void setCustomers(Collection<Customer> customers) {
         this.customers = customers;
+    }
+
+    public Collection<WorkOrder> getWorkOrders() {
+        return workOrders;
+    }
+
+    public void setWorkOrders(Collection<WorkOrder> workOrders) {
+        this.workOrders = workOrders;
     }
 }

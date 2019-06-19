@@ -39,7 +39,7 @@ public class EmployeeController {
 
     @PostMapping("addEmployee")
     public String searchAvaiableEmployees(Model model, @RequestParam String username) {
-        Collection<User> availableUsers = userRepository.findByUsernameAndBusinessIsNull(username);
+        Collection<User> availableUsers = userRepository.findAllByUsernameAndBusinessIsNull(username);
         model.addAttribute("availableUsers", availableUsers);
         return "addEmployee";
     }
