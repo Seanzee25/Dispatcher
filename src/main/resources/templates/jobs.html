@@ -10,9 +10,6 @@
             <div class="col-8">
                 <div class="card my-4" th:each="workOrder : ${workOrders}">
                     <div class="card-body">
-                        <div class="text-right">
-                            <a th:href="@{|/workOrder/edit/${workOrder.id}}" class="btn-sm btn-primary oi oi-pencil"></a>
-                        </div>
                         <h3 class="card-title" th:text="${workOrder.customer.name}"></h3>
                         <div class="container">
                             <div class="row">
@@ -35,12 +32,21 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="btn btn-primary float-right">Start</a>
+                                    <div class="embed-responsive embed-responsive-16by9 mt-2">
+                                        <iframe class="embed-responsive-item"
+                                                th:src="@{|https://www.google.com/maps/embed/v1/place?key=AIzaSyDrJegcyzfyGUGmdf2Q2kLkUVF4mneoke0
+                                                     &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
+                                    </div>
                                 </div>
-                                <iframe width="600" height="450" frameborder="0" style="border:0"
-                                        th:src="@{|https://www.google.com/maps/embed/v1/place?key=AIzaSyDrJegcyzfyGUGmdf2Q2kLkUVF4mneoke0
-                                             &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="btn btn-primary mt-2 float-right">Start</a>
+                                </div>
+                            </div>
+                            <!--<div class="row">-->
+
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>
