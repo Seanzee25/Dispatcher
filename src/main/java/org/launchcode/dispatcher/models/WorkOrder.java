@@ -1,7 +1,10 @@
 package org.launchcode.dispatcher.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 public class WorkOrder {
@@ -17,6 +20,13 @@ public class WorkOrder {
     private Business business;
 
     private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
 
     @ManyToMany()
     @JoinTable(
@@ -82,5 +92,21 @@ public class WorkOrder {
 
     public void setStatus(WorkOrderStatus status) {
         this.status = status;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

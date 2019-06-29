@@ -17,6 +17,20 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col">
+                                    <h5>Date</h5>
+                                </div>
+                                <div class="col">
+                                    <span th:text="${#dates.format(workOrder.startDate, 'dd-MM-yyyy')}"></span>
+                                </div>
+                                <div class="col">
+                                    <h5>Time</h5>
+                                </div>
+                                <div class="col">
+                                    <span th:text="|${#dates.format(workOrder.startDate, 'hh:mm a')} - ${#dates.format(workOrder.endDate, 'hh:mm a')}"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
                                     <h5>Address</h5>
                                     <span th:text="${workOrder.customer.address}"></span>
                                 </div>

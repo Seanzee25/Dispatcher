@@ -10,6 +10,19 @@
             <div class="col mt-4 text-center">
                 <form method="POST" th:object="${workOrder}">
                     <div class="form-group">
+                        <div class='input-group'>
+                            <input type='datetime-local' th:field="*{startDate}" class="form-control" />
+                        </div>
+                        <span th:errors="*{startDate}"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class='input-group'>
+                            <input type='datetime-local' th:field="*{endDate}" class="form-control" />
+                        </div>
+                        <span th:errors="*{endDate}"></span>
+                    </div>
+
+                    <div class="form-group">
                         <label th:for="description">Description: </label>
                         <textarea class="form-control text-white bg-dark" th:field="*{description}"></textarea>
                     </div>
