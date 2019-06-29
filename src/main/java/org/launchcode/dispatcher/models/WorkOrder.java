@@ -30,7 +30,10 @@ public class WorkOrder {
     )
     private Collection<User> technicians;
 
+    private WorkOrderStatus status;
+
     public WorkOrder() {
+        status = WorkOrderStatus.CREATED;
     }
 
     public long getId() {
@@ -71,5 +74,13 @@ public class WorkOrder {
 
     public void setTechnicians(Collection<User> technicians) {
         this.technicians = technicians;
+    }
+
+    public WorkOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WorkOrderStatus status) {
+        this.status = status;
     }
 }

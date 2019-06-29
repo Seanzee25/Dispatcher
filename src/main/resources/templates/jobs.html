@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="bg-info">
     <nav th:replace="fragments :: nav"></nav>
 
     <div class="container">
         <div class="row">
             <div class="col"></div>
             <div class="col-8">
-                <div class="card my-4" th:each="workOrder : ${workOrders}">
-                    <div class="card-body">
-                        <h3 class="card-title" th:text="${workOrder.customer.name}"></h3>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <h5>Address</h5>
-                                    <span th:text="${workOrder.customer.address}"></span>
-                                </div>
-                                <div class="col">
-                                    <h5>Contact</h5>
-                                    <span th:text="${workOrder.customer.contact}"></span>
-                                    <h5>Phone Number</h5>
-                                    <span th:text="${workOrder.customer.phoneNumber}"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <h5>Description</h5>
-                                    <span th:text="${workOrder.description}"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="embed-responsive embed-responsive-16by9 mt-2">
-                                        <iframe class="embed-responsive-item"
-                                                th:src="@{|https://www.google.com/maps/embed/v1/place?key=AIzaSyDrJegcyzfyGUGmdf2Q2kLkUVF4mneoke0
-                                                     &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
+                <div th:each="workOrder : ${workOrders}">
+                    <div class="card text-white bg-dark my-4" th:if="${workOrder.status != T(org.launchcode.dispatcher.models.WorkOrderStatus).FINISHED}">
+                        <div class="card-body">
+                            <h3 class="card-title" th:text="${workOrder.customer.name}"></h3>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>Address</h5>
+                                        <span th:text="${workOrder.customer.address}"></span>
+                                    </div>
+                                    <div class="col">
+                                        <h5>Contact</h5>
+                                        <span th:text="${workOrder.customer.contact}"></span>
+                                        <h5>Phone Number</h5>
+                                        <span th:text="${workOrder.customer.phoneNumber}"></span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <a href="#" class="btn btn-primary mt-2 float-right">Start</a>
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>Description</h5>
+                                        <span th:text="${workOrder.description}"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--<div class="row">-->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="embed-responsive embed-responsive-16by9 mt-2">
+                                            <iframe class="embed-responsive-item"
+                                                    th:src="@{|https://www.google.com/maps/embed/v1/place?key=AIzaSyDrJegcyzfyGUGmdf2Q2kLkUVF4mneoke0
+                                                         &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <th:block th:switch="${workOrder.status}">
+                                            <span th:case="${T(org.launchcode.dispatcher.models.WorkOrderStatus).CREATED}">
+                                                <a th:href="@{|/jobs/start/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Start</a>
+                                            </span>
+                                            <span th:case="${T(org.launchcode.dispatcher.models.WorkOrderStatus).STARTED}">
+                                                <a th:href="@{|/jobs/finish/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Finish</a>
+                                            </span>
 
-                            <!--</div>-->
+                                        </th:block>
+                                    </div>
+                                </div>
+                                <!--<div class="row">-->
+
+                                <!--</div>-->
+                            </div>
                         </div>
                     </div>
                 </div>

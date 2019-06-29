@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="bg-info">
     <nav th:replace="fragments :: nav"></nav>
 
     <div class="container">
-        <div class="row">
+        <div class="row mt-4">
             <div class="col"></div>
-            <div class="col text-center mt-4">
-                <ul class="list-unstyled">
-                    <li th:each="employee : ${employees}">
-                        <span th:text="${employee.username}"></span>
-                        <a href="#">Edit</a>
-                    </li>
-                </ul>
+            <div class="col text-center">
+                <h4>Employees</h4>
+                <table class="table table-dark">
+                    <tr th:each="employee : ${employees}">
+                        <td th:text="${employee.username}"></td>
+                        <td><a class="btn-sm btn-primary" href="#">Edit</a></td>
+                    </tr>
+                </table>
                 <a class="btn btn-primary" href="/employees/addEmployee">Add</a>
 
-                <h4>Pending Invites</h4>
-                <ul class="list-unstyled">
-                    <li th:each="invite : ${pendingInvites}" th:text="${invite.user.username}"></li>
-                </ul>
+                <h4 class="mt-4">Pending Invites</h4>
+                <table class="table table-dark">
+                    <tr th:each="invite : ${pendingInvites}">
+                        <td th:text="${invite.user.username}"></td>
+                    </tr>
+                </table>
             </div>
             <div class="col"></div>
         </div>

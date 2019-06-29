@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body class="bg-info">
     <nav th:replace="fragments :: nav"></nav>
 
     <div class="container">
         <div class="row">
             <div class="col"></div>
             <div class="col-8">
-                <div class="card my-4" th:each="workOrder : ${workOrders}">
+                <div class="card text-white bg-dark my-4" th:each="workOrder : ${workOrders}">
                     <div class="card-body">
                         <div class="text-right">
                         <a th:href="@{|/workOrder/edit/${workOrder.id}}" class="btn-sm btn-primary oi oi-pencil"></a>
@@ -34,12 +34,24 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div th:unless="${workOrder.technicians.size()}" class="col text-right">
+                                <div class="col">
+                                    <div class="embed-responsive embed-responsive-16by9 mt-2">
+                                        <iframe class="embed-responsive-item"
+                                                th:src="@{|https://www.google.com/maps/embed/v1/place?key=AIzaSyDrJegcyzfyGUGmdf2Q2kLkUVF4mneoke0
+                                                         &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div th:unless="${workOrder.technicians.size()}" class="col text-left">
                                     <a class="btn btn-primary" th:href="@{|/workOrders/assign/${workOrder.id}}">Assign</a>
                                 </div>
-                                <div th:if="${workOrder.technicians.size()}" class="col text-right">
+                                <div th:if="${workOrder.technicians.size()}" class="col text-left">
                                     <h5>Assigned Technicians</h5>
                                     <span th:each="technician : ${workOrder.technicians}" th:text="${technician.username}"></span>
+                                </div>
+                                <div th:if="${workOrder.technicians.size()}" class="col text-right">
+                                    <h5 th:text="|Status: ${#strings.capitalize(#strings.toLowerCase(workOrder.status))}"></h5>
                                 </div>
                             </div>
                         </div>
