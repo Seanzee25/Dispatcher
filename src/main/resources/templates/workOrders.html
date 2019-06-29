@@ -20,13 +20,13 @@
                                     <h5>Date</h5>
                                 </div>
                                 <div class="col">
-                                    <span th:text="${#dates.format(workOrder.startDate, 'dd-MM-yyyy')}"></span>
+                                    <span th:text="|${#dates.dayOfWeekName(workOrder.date)}, ${#dates.monthName(workOrder.date)} ${#dates.day(workOrder.date)} ${#dates.year(workOrder.date)}"></span>
                                 </div>
                                 <div class="col">
                                     <h5>Time</h5>
                                 </div>
                                 <div class="col">
-                                    <span th:text="|${#dates.format(workOrder.startDate, 'hh:mm a')} - ${#dates.format(workOrder.endDate, 'hh:mm a')}"></span>
+                                    <span th:text="|${#dates.format(workOrder.startTime, 'hh:mm a')} - ${#dates.format(workOrder.endTime, 'hh:mm a')}"></span>
                                 </div>
                             </div>
                             <div class="row">
