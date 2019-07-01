@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.Date;
 
 @Controller
 @RequestMapping("workOrders")
@@ -36,7 +37,9 @@ public class WorkOrderController {
     @GetMapping("add/{customerId}")
     public String displayAddWorkOrderForm(Model model, Principal principal, @PathVariable long customerId) {
         User currentUser = userRepository.findByUsername(principal.getName());
-        model.addAttribute(new WorkOrder());
+        WorkOrder workOrder = new WorkOrder();
+        workOrder.setDate(new Date());
+        model.addAttribute(workOrder);
         model.addAttribute("business", currentUser.getBusiness());
         model.addAttribute("customerId", customerId);
         return "addWorkOrder";
