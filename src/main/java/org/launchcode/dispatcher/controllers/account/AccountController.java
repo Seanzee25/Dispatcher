@@ -74,4 +74,9 @@ public class AccountController {
     public String successfulLogout(Model model) {
         return "redirect:/login";
     }
+
+    @GetMapping("accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
 }

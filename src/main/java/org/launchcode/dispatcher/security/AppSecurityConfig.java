@@ -39,14 +39,18 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
-                .antMatchers("/businessOwner").hasRole("BUSINESS_OWNER")
-                .antMatchers("/dispatcher").hasRole("DISPATCHER")
-                .antMatchers("/fieldTech").hasRole("FIELD_TECH")
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/employees/**").hasRole("BUSINESS_OWNER")
+                .antMatchers("/workOrders/**").hasAnyRole("BUSINESS_OWNER", "DISPATCHER")
+                .antMatchers("/customers/**").hasAnyRole("BUSINESS_OWNER", "DISPATCHER")
+                .antMatchers("/jobs/**").hasAnyRole("BUSINESS_OWNER", "FIELD_TECH")
                 .and()
+
+                .exceptionHandling().accessDeniedPage("/accessDenied")
+                .and()
+
                 .formLogin().loginPage("/login")
                 .and()
+
                 .logout().invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
