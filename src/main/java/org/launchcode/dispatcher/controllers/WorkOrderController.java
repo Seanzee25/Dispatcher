@@ -5,6 +5,7 @@ import org.launchcode.dispatcher.models.WorkOrder;
 import org.launchcode.dispatcher.repositories.RoleRepository;
 import org.launchcode.dispatcher.repositories.UserRepository;
 import org.launchcode.dispatcher.repositories.WorkOrderRepository;
+import org.launchcode.dispatcher.searchFilters.WorkOrderFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
+
+import static org.launchcode.dispatcher.repositories.specifications.WorkOrderSpecifications.*;
 
 @Controller
 @RequestMapping("workOrders")
@@ -31,6 +34,26 @@ public class WorkOrderController {
     public String displayWorkOrders(Model model, Principal principal) {
         User currentUser = userRepository.findByUsername(principal.getName());
         model.addAttribute("workOrders", currentUser.getBusiness().getWorkOrders());
+        model.addAttribute("filter", new WorkOrderFilter());
+        return "workOrders";
+    }
+
+    @PostMapping("")
+    public String displayFilteredWorkOrders(Model model, Principal principal,
+                                            @ModelAttribute WorkOrderFilter filter) {
+        Collection<WorkOrder> workOrders = workOrderRepository.findAll(
+                hasDateBetween(filter.getFromDate(), filter.getToDate())
+                .and(hasCustomerId(filter.getCustomerId()))
+                .and(hasAssignedTechnician(filter.getTechnicianId()))
+                .and(hasStatus(filter.getStatus()))
+                .and(hasAddress(filter.getAddress()))
+                .and(hasPhoneNumber(filter.getPhoneNumber()))
+                .and(hasContact(filter.getContact()))
+                .and(hasTimeBetween(filter.getFromTime(), filter.getToTime()))
+        );
+        model.addAttribute("filter", filter);
+        model.addAttribute("workOrders", workOrders);
+
         return "workOrders";
     }
 
