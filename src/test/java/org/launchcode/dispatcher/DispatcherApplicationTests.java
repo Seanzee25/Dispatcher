@@ -7,8 +7,8 @@ import org.launchcode.dispatcher.repositories.WorkOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,18 +29,15 @@ class DispatcherApplicationTests {
 
     @Test
     void hasDateBetweenTest() {
-        Calendar from = new Calendar.Builder()
-                .setDate(2019, 0, 1)
-                .build();
-        Calendar to = new Calendar.Builder()
-                .setDate(2020, 0, 1)
-                .build();
+        LocalDate from = LocalDate.of(2019, 1, 1);
+        LocalDate to = LocalDate.of(2020, 1, 1);
 
 	    Collection<WorkOrder> workOrders = workOrderRepository.findAll(hasDateBetween(from, to));
 	    assertEquals(8, workOrders.size());
 
-	    from.set(1991, 0, 1);
-	    to.set(1992, 0, 1);
+	    from = LocalDate.of(1991, 1, 1);
+	    to = LocalDate.of(1992, 1, 1);
+
 	    workOrders = workOrderRepository.findAll(hasDateBetween(from, to));
 	    assertEquals(1, workOrders.size());
     }
@@ -112,6 +109,11 @@ class DispatcherApplicationTests {
 
         workOrders = workOrderRepository.findAll(hasTimeBetween(from, to));
         assertEquals(1, workOrders.size());
+    }
+
+    @Test
+    void compoundQueryTest() {
+
     }
 
 }

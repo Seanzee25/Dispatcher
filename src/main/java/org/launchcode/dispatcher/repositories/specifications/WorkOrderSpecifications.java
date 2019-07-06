@@ -7,8 +7,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Collection;
 
 public class WorkOrderSpecifications {
@@ -17,9 +17,9 @@ public class WorkOrderSpecifications {
         return (root, query, cb) -> cb.equal(root.get("customer").get("id"), id);
     }
 
-    public static Specification<WorkOrder> hasDateBetween(Calendar from, Calendar to) {
+    public static Specification<WorkOrder> hasDateBetween(LocalDate from, LocalDate to) {
 
-        return (root, query, cb) -> cb.between(root.get("date").as(Calendar.class), from, to);
+        return (root, query, cb) -> cb.between(root.get("date").as(LocalDate.class), from, to);
     }
 
     public static Specification<WorkOrder> hasAssignedTechnician(long id) {
