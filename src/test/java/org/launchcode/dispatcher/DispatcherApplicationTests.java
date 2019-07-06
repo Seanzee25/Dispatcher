@@ -113,7 +113,31 @@ class DispatcherApplicationTests {
 
     @Test
     void compoundQueryTest() {
+	    long expectedId = 83;
+        long customerId = 41;
+        LocalDate fromDate = LocalDate.of(1991, 6, 1);
+        LocalDate toDate = LocalDate.of(1991, 6, 11);
+        LocalTime fromTime = LocalTime.of(6, 0);
+        LocalTime toTime = LocalTime.of(8, 0);
+        WorkOrderStatus status = WorkOrderStatus.CREATED;
+        String address = "Address";
+        String contact = "John Smith";
+        String phoneNumber = "555-555-5555";
+
+        Collection<WorkOrder> workOrders = workOrderRepository.findAll(
+                hasCustomerId(customerId)
+                .and(hasDateBetween(fromDate, toDate))
+                .and(hasTimeBetween(fromTime, toTime))
+                .and(hasStatus(status))
+                .and(hasAddress(address))
+                .and(hasContact(contact))
+                .and(hasPhoneNumber(phoneNumber))
+        );
+
+        assertEquals(1, workOrders.size());
+        assertEquals(expectedId, ((List<WorkOrder>) workOrders).get(0).getId());
 
     }
 
+    // TODO: Add customer name? Technician name? etc? description?
 }
