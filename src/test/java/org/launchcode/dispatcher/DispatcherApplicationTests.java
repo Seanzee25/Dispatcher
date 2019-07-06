@@ -23,7 +23,7 @@ class DispatcherApplicationTests {
 
 	@Test
     void hasCustomerIdTest() {
-	    Collection<WorkOrder> workOrders = workOrderRepository.findAll(hasCustomerId(41));
+	    Collection<WorkOrder> workOrders = workOrderRepository.findAll(hasCustomerName("Customer"));
         assertEquals(4, workOrders.size());
     }
 
@@ -45,12 +45,12 @@ class DispatcherApplicationTests {
     @Test
     void hasAssignedTechnicianTest() {
 
-	    Collection<WorkOrder> workOrders = workOrderRepository.findAll(hasAssignedTechnician(38));
+	    Collection<WorkOrder> workOrders = workOrderRepository.findAll(hasAssignedTechnicianName("tech"));
 
         assertEquals(1, workOrders.size());
 	    assertEquals(83, ((List<WorkOrder>) workOrders).get(0).getId());
 
-	    workOrders = workOrderRepository.findAll(hasAssignedTechnician(53));
+	    workOrders = workOrderRepository.findAll(hasAssignedTechnicianName("tech4"));
 	    assertEquals(0, workOrders.size());
     }
 
@@ -114,7 +114,8 @@ class DispatcherApplicationTests {
     @Test
     void compoundQueryTest() {
 	    long expectedId = 83;
-        long customerId = 41;
+        String customerName = "Customer";
+        String technicianName = "tech";
         LocalDate fromDate = LocalDate.of(1991, 6, 1);
         LocalDate toDate = LocalDate.of(1991, 6, 11);
         LocalTime fromTime = LocalTime.of(6, 0);
@@ -125,13 +126,14 @@ class DispatcherApplicationTests {
         String phoneNumber = "555-555-5555";
 
         Collection<WorkOrder> workOrders = workOrderRepository.findAll(
-                hasCustomerId(customerId)
+                hasCustomerName(customerName)
                 .and(hasDateBetween(fromDate, toDate))
                 .and(hasTimeBetween(fromTime, toTime))
                 .and(hasStatus(status))
                 .and(hasAddress(address))
                 .and(hasContact(contact))
                 .and(hasPhoneNumber(phoneNumber))
+                .and(hasAssignedTechnicianName(technicianName))
         );
 
         assertEquals(1, workOrders.size());

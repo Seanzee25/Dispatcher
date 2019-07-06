@@ -26,7 +26,7 @@
                         <textarea class="form-control text-white bg-dark" th:field="*{description}"></textarea>
                     </div>
                     <input type="hidden" name="business" th:value="${business.id}"/>
-                    <input type="hidden" name="customer" th:value="${customerId}"/>
+                    <input type="hidden" name="customer" th:value="${customerName}"/>
                     <button type="submit" class="btn btn-primary">Create WorkOrder</button>
                 </form>
             </div>

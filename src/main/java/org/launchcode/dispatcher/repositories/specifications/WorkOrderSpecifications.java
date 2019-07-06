@@ -13,22 +13,35 @@ import java.util.Collection;
 
 public class WorkOrderSpecifications {
 
-    public static Specification<WorkOrder> hasCustomerId(long id) {
-        return (root, query, cb) -> cb.equal(root.get("customer").get("id"), id);
+    public static Specification<WorkOrder> hasCustomerName(String name) {
+        return (root, query, cb) -> cb.like(root.get("customer").get("name"), "%"+name+"%");
     }
 
     public static Specification<WorkOrder> hasDateBetween(LocalDate from, LocalDate to) {
-
-        return (root, query, cb) -> cb.between(root.get("date").as(LocalDate.class), from, to);
+        if(from == null && to == null) {
+            return (root, query, cb) -> cb.and();
+        } else if(from == null) {
+            return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("date").as(LocalDate.class), to);
+        } else if(to == null) {
+            return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("date").as(LocalDate.class), from);
+        } else {
+            return (root, query, cb) -> cb.between(root.get("date").as(LocalDate.class), from, to);
+        }
     }
 
-    public static Specification<WorkOrder> hasAssignedTechnician(long id) {
+    public static Specification<WorkOrder> hasAssignedTechnicianName(String name) {
+        if(name.equals("")) {
+            // Searching empty string returns only WorkOrders that have assigned technicians
+            // This skips the query in that case.
+            return (root, query, criteriaBuilder) -> criteriaBuilder.and();
+        }
+
         return (root, query, cb) -> {
             query.distinct(true);
             Root<WorkOrder> workOrder = root;
             Root<User> technician = query.from(User.class);
             Expression<Collection<WorkOrder>> technicianWorkOrders = technician.get("workOrders");
-            return cb.and(cb.equal(technician.get("id"), id), cb.isMember(workOrder, technicianWorkOrders));
+            return cb.and(cb.like(technician.get("username"), "%"+name+"%"), cb.isMember(workOrder, technicianWorkOrders));
         };
     }
 
@@ -49,6 +62,14 @@ public class WorkOrderSpecifications {
     }
 
     public static Specification<WorkOrder> hasTimeBetween(LocalTime from, LocalTime to) {
-        return (root, query, cb) -> cb.between(root.get("startTime").as(LocalTime.class), from, to);
+        if(from == null && to == null) {
+            return (root, query, cb) -> cb.and();
+        } else if(from == null) {
+            return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("startTime").as(LocalTime.class), to);
+        } else if(to == null) {
+            return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("startTime").as(LocalTime.class), from);
+        } else {
+            return (root, query, cb) -> cb.between(root.get("startTime").as(LocalTime.class), from, to);
+        }
     }
 }

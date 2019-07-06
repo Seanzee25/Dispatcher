@@ -41,10 +41,11 @@ public class WorkOrderController {
     @PostMapping("")
     public String displayFilteredWorkOrders(Model model, Principal principal,
                                             @ModelAttribute WorkOrderFilter filter) {
+
         Collection<WorkOrder> workOrders = workOrderRepository.findAll(
                 hasDateBetween(filter.getFromDate(), filter.getToDate())
-                .and(hasCustomerId(filter.getCustomerId()))
-                .and(hasAssignedTechnician(filter.getTechnicianId()))
+                .and(hasCustomerName(filter.getCustomerName()))
+                .and(hasAssignedTechnicianName(filter.getTechnicianName()))
                 .and(hasStatus(filter.getStatus()))
                 .and(hasAddress(filter.getAddress()))
                 .and(hasPhoneNumber(filter.getPhoneNumber()))

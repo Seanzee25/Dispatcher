@@ -1,32 +1,44 @@
 package org.launchcode.dispatcher.searchFilters;
 
 import org.launchcode.dispatcher.models.WorkOrderStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class WorkOrderFilter {
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private LocalDate toDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private LocalDate fromDate;
-    private long customerId;
-    private long technicianId;
+
+    private String customerName;
+    private String technicianName;
     private WorkOrderStatus status;
     private String address;
     private String phoneNumber;
     private String contact;
+
+    @DateTimeFormat(pattern = "HH:mm")
+    @Temporal(TemporalType.TIME)
     private LocalTime fromTime;
+
+    @DateTimeFormat(pattern = "HH:mm")
+    @Temporal(TemporalType.TIME)
     private LocalTime toTime;
 
     private Collection<WorkOrderStatus> statuses;
 
     public WorkOrderFilter() {
-        statuses = new ArrayList<>();
-        statuses.add(WorkOrderStatus.CREATED);
-        statuses.add(WorkOrderStatus.STARTED);
-        statuses.add(WorkOrderStatus.FINISHED);
+        statuses = Arrays.asList(WorkOrderStatus.values());
     }
 
     public LocalDate getToDate() {
@@ -45,20 +57,20 @@ public class WorkOrderFilter {
         this.fromDate = fromDate;
     }
 
-    public long getCustomerId() {
-        return customerId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public long getTechnicianId() {
-        return technicianId;
+    public String getTechnicianName() {
+        return technicianName;
     }
 
-    public void setTechnicianId(long technicianId) {
-        this.technicianId = technicianId;
+    public void setTechnicianName(String technicianName) {
+        this.technicianName = technicianName;
     }
 
     public WorkOrderStatus getStatus() {
