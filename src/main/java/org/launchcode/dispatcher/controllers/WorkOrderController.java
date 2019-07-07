@@ -37,7 +37,7 @@ public class WorkOrderController {
     public String displayWorkOrders(Model model, Principal principal) {
         User currentUser = userRepository.findByUsername(principal.getName());
         model.addAttribute("workOrders",
-                workOrderRepository.findAllByBusiness(currentUser.getBusiness(), Sort.by("date")));
+                workOrderRepository.findAllByBusiness(currentUser.getBusiness(), Sort.by("date", "startTime")));
         model.addAttribute("filter", new WorkOrderFilter());
         return "workOrders";
     }
@@ -50,7 +50,7 @@ public class WorkOrderController {
         model.addAttribute("filter", filter);
         model.addAttribute("workOrders",
                 workOrderRepository.findAll(byBusiness(currentUser.getBusiness()).and(byExample(filter)),
-                                            Sort.by("date")));
+                                            Sort.by("date", "startTime")));
 
         return "workOrders";
     }

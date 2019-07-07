@@ -76,6 +76,16 @@ public class WorkOrderSpecifications {
         return (root, query, cb) -> cb.equal(root.get("business").get("id"), business.getId());
     }
 
+    public static Specification<WorkOrder> byUser(User user) {
+        return (root, query, cb) -> {
+            query.distinct(true);
+            Root<WorkOrder> workOrder = root;
+            Root<User> technician = query.from(User.class);
+            Expression<Collection<WorkOrder>> technicianWorkOrders = technician.get("workOrders");
+            return cb.and(cb.equal(technician.get("id"), user.getId()), cb.isMember(workOrder, technicianWorkOrders));
+        };
+    }
+
     public static Specification<WorkOrder> hasCustomerName(String name) {
         return (root, query, cb) -> cb.like(root.get("customer").get("name"), "%"+name+"%");
     }

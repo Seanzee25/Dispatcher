@@ -4,62 +4,139 @@
 <body class="bg-info">
     <nav th:replace="fragments :: nav"></nav>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col"></div>
-            <div class="col-8">
-                <div th:each="workOrder : ${workOrders}">
-                    <div class="card text-white bg-dark my-4" th:if="${workOrder.status != T(org.launchcode.dispatcher.models.WorkOrderStatus).FINISHED}">
-                        <div class="card-body">
-                            <h3 class="card-title" th:text="${workOrder.customer.name}"></h3>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5>Address</h5>
-                                        <span th:text="${workOrder.customer.address}"></span>
+            <div class="col-2 bg-dark">
+                <div class="text-white mt-4">
+                    <h4>Filter</h4>
+                    <form method = "POST" th:object="${filter}">
+                        <div class="form-group">
+                            <label th:for="fromDate">Date Between:</label>
+                            <input class="form-control" type="date" th:field="*{fromDate}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="toDate">And:</label>
+                            <input class="form-control" type="date" th:field="*{toDate}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="customerName">Customer:</label>
+                            <input class="form-control" th:field="*{customerName}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="status">Status:</label>
+                            <select class="form-control" th:field="*{status}">
+                                <option th:each="status : *{statuses}"
+                                        th:unless="${status.name == 'Created'}"
+                                        th:value="${status}"
+                                        th:text="${status.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="address">Address:</label>
+                            <input class="form-control" th:field="*{address}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="phoneNumber">Phone Number:</label>
+                            <input class="form-control" th:field="*{phoneNumber}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="contact">Contact:</label>
+                            <input class="form-control" th:field="*{contact}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="fromTime">Time Between:</label>
+                            <input class="form-control" type="time" th:field="*{fromTime}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="toTime">And:</label>
+                            <input class="form-control" type="time" th:field="*{toTime}"/>
+                        </div>
+                        <button class="btn btn-primary">Apply</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="container">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-8">
+                            <div class="card text-white bg-dark my-4" th:each="workOrder : ${workOrders}">
+                                <div class="card-body">
+                                    <div class="text-right">
+                                        <a th:href="@{|/workOrder/edit/${workOrder.id}}" class="btn-sm btn-primary oi oi-pencil"></a>
                                     </div>
-                                    <div class="col">
-                                        <h5>Contact</h5>
-                                        <span th:text="${workOrder.customer.contact}"></span>
-                                        <h5>Phone Number</h5>
-                                        <span th:text="${workOrder.customer.phoneNumber}"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <h5>Description</h5>
-                                        <span th:text="${workOrder.description}"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="embed-responsive embed-responsive-16by9 mt-2">
-                                            <iframe class="embed-responsive-item"
-                                                    th:src="@{|https://www.google.com/maps/embed/v1/place?key=API_KEY
-                                                         &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
+                                    <h3 class="card-title" th:text="${workOrder.customer.name}"></h3>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>Date</h5>
+                                            </div>
+                                            <div class="col">
+                                                <span th:text="|${#dates.dayOfWeekName(workOrder.date)}, ${#dates.monthName(workOrder.date)} ${#dates.day(workOrder.date)} ${#dates.year(workOrder.date)}"></span>
+                                            </div>
+                                            <div class="col">
+                                                <h5>Time</h5>
+                                            </div>
+                                            <div class="col">
+                                                <span th:text="|${#dates.format(workOrder.startTime, 'hh:mm a')} - ${#dates.format(workOrder.endTime, 'hh:mm a')}"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <th:block th:switch="${workOrder.status.name}">
-                                            <span th:case="Assigned">
-                                                <a th:href="@{|/jobs/start/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Start</a>
-                                            </span>
-                                            <span th:case="Started">
-                                                <a th:href="@{|/jobs/finish/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Finish</a>
-                                            </span>
-                                        </th:block>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>Address</h5>
+                                                <span th:text="${workOrder.customer.address}"></span>
+                                            </div>
+                                            <div class="col">
+                                                <h5>Contact</h5>
+                                                <span th:text="${workOrder.customer.contact}"></span>
+                                                <h5>Phone Number</h5>
+                                                <span th:text="${workOrder.customer.phoneNumber}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5>Description</h5>
+                                                <span th:text="${workOrder.description}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="embed-responsive embed-responsive-16by9 mt-2">
+                                                    <iframe class="embed-responsive-item"
+                                                            th:src="@{|https://www.google.com/maps/embed/v1/place?key=API_KEY
+                                                         &q=${#strings.replace(workOrder.customer.address, ' ', '+')}}"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <th:block th:switch="${workOrder.status.name}">
+                                                    <span th:case="Assigned">
+                                                        <a th:href="@{|/jobs/start/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Start</a>
+                                                    </span>
+                                                    <span th:case="Started">
+                                                        <a th:href="@{|/jobs/finish/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Finish</a>
+                                                    </span>
+                                                </th:block>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col"></div>
                     </div>
                 </div>
             </div>
-            <div class="col"></div>
         </div>
     </div>
+
+
+
+    <section th:replace="fragments :: javascript"></section>
+</body>
+
 
     <section th:replace="fragments :: javascript"></section>
 </body>
