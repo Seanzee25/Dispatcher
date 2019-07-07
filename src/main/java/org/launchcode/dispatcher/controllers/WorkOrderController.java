@@ -7,6 +7,7 @@ import org.launchcode.dispatcher.repositories.UserRepository;
 import org.launchcode.dispatcher.repositories.WorkOrderRepository;
 import org.launchcode.dispatcher.searchFilters.WorkOrderFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,7 +18,7 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
 
-import static org.launchcode.dispatcher.repositories.specifications.WorkOrderSpecifications.*;
+import static org.launchcode.dispatcher.repositories.specifications.WorkOrderSpecifications.byExample;
 
 @Controller
 @RequestMapping("workOrders")
@@ -33,27 +34,22 @@ public class WorkOrderController {
     @GetMapping("")
     public String displayWorkOrders(Model model, Principal principal) {
         User currentUser = userRepository.findByUsername(principal.getName());
-        model.addAttribute("workOrders", currentUser.getBusiness().getWorkOrders());
+        model.addAttribute("workOrders",
+                workOrderRepository.findAllByBusiness(currentUser.getBusiness(), Sort.by("date")));
         model.addAttribute("filter", new WorkOrderFilter());
+
         return "workOrders";
     }
 
     @PostMapping("")
     public String displayFilteredWorkOrders(Model model, Principal principal,
                                             @ModelAttribute WorkOrderFilter filter) {
+        User currentUser = userRepository.findByUsername(principal.getName());
 
-        Collection<WorkOrder> workOrders = workOrderRepository.findAll(
-                hasDateBetween(filter.getFromDate(), filter.getToDate())
-                .and(hasCustomerName(filter.getCustomerName()))
-                .and(hasAssignedTechnicianName(filter.getTechnicianName()))
-                .and(hasStatus(filter.getStatus()))
-                .and(hasAddress(filter.getAddress()))
-                .and(hasPhoneNumber(filter.getPhoneNumber()))
-                .and(hasContact(filter.getContact()))
-                .and(hasTimeBetween(filter.getFromTime(), filter.getToTime()))
-        );
         model.addAttribute("filter", filter);
-        model.addAttribute("workOrders", workOrders);
+        model.addAttribute("workOrders", workOrderRepository.findAllByBusiness(currentUser.getBusiness(),
+                                                                                            byExample(filter),
+                                                                                            Sort.by("status", "date")));
 
         return "workOrders";
     }

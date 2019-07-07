@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.launchcode.dispatcher.models.WorkOrder;
 import org.launchcode.dispatcher.models.WorkOrderStatus;
 import org.launchcode.dispatcher.repositories.WorkOrderRepository;
+import org.launchcode.dispatcher.searchFilters.WorkOrderFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -139,6 +140,19 @@ class DispatcherApplicationTests {
         assertEquals(1, workOrders.size());
         assertEquals(expectedId, ((List<WorkOrder>) workOrders).get(0).getId());
 
+    }
+
+    @Test
+    void byExampleCompoundTest() {
+        WorkOrderFilter filter = new WorkOrderFilter();
+        filter.setAddress("address");
+        filter.setContact("John Smith");
+        filter.setFromDate(LocalDate.of(2019, 6, 7));
+        filter.setToDate(LocalDate.of(2019, 6, 29));
+
+        Collection<WorkOrder> workOrders = workOrderRepository.findAll(byExample(filter));
+
+        assertEquals(2, workOrders.size());
     }
 
     // TODO: Add customer name? Technician name? etc? description?

@@ -3,15 +3,73 @@ package org.launchcode.dispatcher.repositories.specifications;
 import org.launchcode.dispatcher.models.User;
 import org.launchcode.dispatcher.models.WorkOrder;
 import org.launchcode.dispatcher.models.WorkOrderStatus;
+import org.launchcode.dispatcher.searchFilters.WorkOrderFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 public class WorkOrderSpecifications {
+
+    private static Collection<Specification<WorkOrder>> getSpecificationsFromFilter(WorkOrderFilter filter) {
+        Collection<Specification<WorkOrder>> specifications = new ArrayList<>();
+
+        String address = filter.getAddress();
+        if(address != null && !address.equals("")) {
+            specifications.add(hasAddress(address));
+        }
+        String contact = filter.getContact();
+        if(contact != null && !contact.equals("")) {
+            specifications.add(hasContact(contact));
+        }
+        String phoneNumber = filter.getPhoneNumber();
+        if(phoneNumber != null && !phoneNumber.equals("")) {
+            specifications.add(hasPhoneNumber(phoneNumber));
+        }
+        String technicianName = filter.getTechnicianName();
+        if(technicianName != null && !technicianName.equals("")) {
+            specifications.add(hasAssignedTechnicianName(technicianName));
+        }
+        String customerName = filter.getCustomerName();
+        if(customerName != null && !customerName.equals("")) {
+            specifications.add(hasCustomerName(customerName));
+        }
+        LocalDate fromDate = filter.getFromDate();
+        LocalDate toDate = filter.getToDate();
+        if(toDate != null || fromDate != null) {
+            specifications.add(hasDateBetween(fromDate, toDate));
+        }
+        LocalTime fromTime = filter.getFromTime();
+        LocalTime toTime = filter.getToTime();
+        if(toTime != null || fromTime != null) {
+            specifications.add(hasTimeBetween(fromTime, toTime));
+        }
+        WorkOrderStatus status = filter.getStatus();
+        if(status != null) {
+            specifications.add(hasStatus(status));
+        }
+
+        return specifications;
+    }
+
+    public static Specification<WorkOrder> byExample(WorkOrderFilter filter) {
+        Collection<Specification<WorkOrder>> specifications = getSpecificationsFromFilter(filter);
+        Iterator<Specification<WorkOrder>> it = specifications.iterator();
+        if(!it.hasNext()) {
+            return (root, query, cb) -> cb.and();
+        }
+
+        Specification<WorkOrder> result = it.next();
+        while(it.hasNext()) {
+            result = result.and(it.next());
+        }
+        return result;
+    }
 
     public static Specification<WorkOrder> hasCustomerName(String name) {
         return (root, query, cb) -> cb.like(root.get("customer").get("name"), "%"+name+"%");
