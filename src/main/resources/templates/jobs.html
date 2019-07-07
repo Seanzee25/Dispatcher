@@ -42,14 +42,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <th:block th:switch="${workOrder.status}">
-                                            <span th:case="${T(org.launchcode.dispatcher.models.WorkOrderStatus).CREATED}">
+                                        <th:block th:switch="${workOrder.status.name}">
+                                            <span th:case="Assigned">
                                                 <a th:href="@{|/jobs/start/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Start</a>
                                             </span>
-                                            <span th:case="${T(org.launchcode.dispatcher.models.WorkOrderStatus).STARTED}">
+                                            <span th:case="Started">
                                                 <a th:href="@{|/jobs/finish/${workOrder.id}}" class="btn btn-primary mt-2 float-right">Finish</a>
                                             </span>
-
                                         </th:block>
                                     </div>
                                 </div>

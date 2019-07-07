@@ -31,7 +31,7 @@
                             <select class="form-control" th:field="*{status}">
                                 <option th:each="status : *{statuses}"
                                         th:value="${status}"
-                                        th:text="${status}">
+                                        th:text="${status.name}">
                                 </option>
                             </select>
                         </div>
@@ -121,7 +121,7 @@
                                                 <span th:each="technician : ${workOrder.technicians}" th:text="${technician.username}"></span>
                                             </div>
                                             <div th:if="${workOrder.technicians.size()}" class="col text-right">
-                                                <h5 th:text="|Status: ${#strings.capitalize(#strings.toLowerCase(workOrder.status))}"></h5>
+                                                <h5 th:text="|Status: ${workOrder.status.name}"></h5>
                                             </div>
                                         </div>
                                     </div>

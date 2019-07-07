@@ -2,6 +2,7 @@ package org.launchcode.dispatcher.controllers;
 
 import org.launchcode.dispatcher.models.User;
 import org.launchcode.dispatcher.models.WorkOrder;
+import org.launchcode.dispatcher.models.WorkOrderStatus;
 import org.launchcode.dispatcher.repositories.RoleRepository;
 import org.launchcode.dispatcher.repositories.UserRepository;
 import org.launchcode.dispatcher.repositories.WorkOrderRepository;
@@ -18,6 +19,7 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
 
+import static org.launchcode.dispatcher.repositories.specifications.WorkOrderSpecifications.byBusiness;
 import static org.launchcode.dispatcher.repositories.specifications.WorkOrderSpecifications.byExample;
 
 @Controller
@@ -37,7 +39,6 @@ public class WorkOrderController {
         model.addAttribute("workOrders",
                 workOrderRepository.findAllByBusiness(currentUser.getBusiness(), Sort.by("date")));
         model.addAttribute("filter", new WorkOrderFilter());
-
         return "workOrders";
     }
 
@@ -47,9 +48,9 @@ public class WorkOrderController {
         User currentUser = userRepository.findByUsername(principal.getName());
 
         model.addAttribute("filter", filter);
-        model.addAttribute("workOrders", workOrderRepository.findAllByBusiness(currentUser.getBusiness(),
-                                                                                            byExample(filter),
-                                                                                            Sort.by("status", "date")));
+        model.addAttribute("workOrders",
+                workOrderRepository.findAll(byBusiness(currentUser.getBusiness()).and(byExample(filter)),
+                                            Sort.by("date")));
 
         return "workOrders";
     }
@@ -101,6 +102,7 @@ public class WorkOrderController {
                                              @ModelAttribute WorkOrder workOrder) {
         WorkOrder workOrderToAssign = workOrderRepository.getOne(workOrderId);
         workOrderToAssign.setTechnicians(workOrder.getTechnicians());
+        workOrderToAssign.setStatus(WorkOrderStatus.ASSIGNED);
         workOrderRepository.save(workOrderToAssign);
         return "redirect:/workOrders";
     }

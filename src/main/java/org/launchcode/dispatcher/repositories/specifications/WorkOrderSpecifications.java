@@ -1,5 +1,6 @@
 package org.launchcode.dispatcher.repositories.specifications;
 
+import org.launchcode.dispatcher.models.Business;
 import org.launchcode.dispatcher.models.User;
 import org.launchcode.dispatcher.models.WorkOrder;
 import org.launchcode.dispatcher.models.WorkOrderStatus;
@@ -69,6 +70,10 @@ public class WorkOrderSpecifications {
             result = result.and(it.next());
         }
         return result;
+    }
+
+    public static Specification<WorkOrder> byBusiness(Business business) {
+        return (root, query, cb) -> cb.equal(root.get("business").get("id"), business.getId());
     }
 
     public static Specification<WorkOrder> hasCustomerName(String name) {
