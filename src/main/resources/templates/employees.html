@@ -4,27 +4,45 @@
 <body class="bg-info">
     <nav th:replace="fragments :: nav"></nav>
 
-    <div class="container">
-        <div class="row mt-4">
-            <div class="col"></div>
-            <div class="col text-center">
-                <h4>Employees</h4>
-                <table class="table table-dark">
-                    <tr th:each="employee : ${employees}">
-                        <td th:text="${employee.username}"></td>
-                        <td><a class="btn-sm btn-primary" href="#">Edit</a></td>
-                    </tr>
-                </table>
-                <a class="btn btn-primary" href="/employees/addEmployee">Add</a>
-
-                <h4 class="mt-4">Pending Invites</h4>
-                <table class="table table-dark">
-                    <tr th:each="invite : ${pendingInvites}">
-                        <td th:text="${invite.user.username}"></td>
-                    </tr>
-                </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 bg-dark">
+                <div class="text-white mt-4">
+                    <h4>Filter</h4>
+                    <form method="POST" th:object="${filter}">
+                        <div class="form-group">
+                            <label th:for="username">Username</label>
+                            <input class="form-control" th:field="*{username}"/>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Apply</button>
+                    </form>
+                </div>
             </div>
-            <div class="col"></div>
+            <div class="col-10">
+                <div class="container">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-8">
+                            <h4>Employees</h4>
+                            <table class="table table-dark">
+                                <tr th:each="employee : ${employees}">
+                                    <td th:text="${employee.username}"></td>
+                                    <td><a class="btn-sm btn-primary" href="#">Edit</a></td>
+                                </tr>
+                            </table>
+                            <a class="btn btn-primary" href="/employees/addEmployee">Add</a>
+
+                            <h4 class="mt-4">Pending Invites</h4>
+                            <table class="table table-dark">
+                                <tr th:each="invite : ${pendingInvites}">
+                                    <td th:text="${invite.user.username}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
