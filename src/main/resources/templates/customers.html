@@ -4,20 +4,50 @@
 <body class="bg-info">
     <nav th:replace="fragments :: nav"></nav>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col"></div>
-            <div class="col-8 mt-4 text-center">
-                <table class="table table-dark">
-                    <tr th:each="customer : ${customers}">
-                        <td th:text="${customer.name}"></td>
-                        <td><a class="btn-sm btn-primary" th:href="@{|/customers/edit/${customer.id}}">Edit</a></td>
-                        <td><a class="btn-sm btn-primary" th:href="@{|/workOrders/add/${customer.id}}">Add Work Order</a></td>
-                    </tr>
-                </table>
-                <a class="btn btn-primary" href="/customers/add">Add</a>
+            <div class="col-2 bg-dark">
+                <div class="text-white m-4">
+                    <h4>Filter</h4>
+                    <form method="POST" th:object="${filter}">
+                        <div class="form-group">
+                            <label th:for="name">Name</label>
+                            <input class="form-control" th:field="*{name}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="address">Address</label>
+                            <input class="form-control" th:field="*{address}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="contactName">Contact</label>
+                            <input class="form-control" th:field="*{contactName}"/>
+                        </div>
+                        <div class="form-group">
+                            <label th:for="phoneNumber">Phone Number</label>
+                            <input class="form-control" th:field="*{phoneNumber}"/>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Apply</button>
+                    </form>
+                </div>
             </div>
-            <div class="col"></div>
+            <div class="col-10">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col"></div>
+                        <div class="col-8">
+                            <table class="table table-dark">
+                                <tr th:each="customer : ${customers}">
+                                    <td th:text="${customer.name}"></td>
+                                    <td><a class="btn-sm btn-primary" th:href="@{|/customers/edit/${customer.id}}">Edit</a></td>
+                                    <td><a class="btn-sm btn-primary" th:href="@{|/workOrders/add/${customer.id}}">Add Work Order</a></td>
+                                </tr>
+                            </table>
+                            <a class="btn btn-primary" href="/customers/add">Add</a>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
